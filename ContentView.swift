@@ -1,17 +1,11 @@
-//
-//  ContentView.swift
-//  AnimalMatchGame
-//
-//  Created by Rabia Çakıcı on 21.07.2025.
-//
-
 import SwiftUI
 import FirebaseAuth
+import Combine
 
 // Kartın veri modeli
 struct Card: Identifiable {
     let id = UUID()
-    let name: String // Bu artık resim asset adını tutacak
+    let name: String
     var isFlipped: Bool = false
     var isMatched: Bool = false
 }
@@ -29,65 +23,96 @@ struct ContentView: View {
     @State private var matchedCardsCount = 0
     @State private var score = 0
     @State private var gameStarted = false
-    @State private var isGameOver = false // Yeni: Oyunun bittiğini kontrol eden değişken
-    @State private var timeRemaining = 60 // Süreli oyun için
-    private var timer: Timer? // Süreli oyun için
+    @State private var isGameOver = false
     
-    // Resim asset isimleri. Buraya 'Assets.xcassets'e eklediğiniz resimlerin adlarını yazın.
-    private let cardImageNames = ["bear", "fox", "rabbit", "lion", "elephant", "giraffe"] // Örnek isimler, kendi resimlerinize göre güncelleyin
+    @State private var timeRemaining = 60
+    @State private var timerPublisher = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var cancellable: AnyCancellable?
+    
+    private let cardImageNames = ["bear", "fox", "rabbit", "lion", "elephant", "giraffe"]
     
     var body: some View {
-        // isLoggedIn durumuna göre görünümü yöneten ana blok
         if isLoggedIn {
-            // Oyun Ekranı
+            // MARK: - Oyun Ekranı
             NavigationStack {
-                VStack {
-                    HStack {
-                        Text("Skor: \(score)")
-                            .font(.title).bold()
-                        Spacer()
-                        Text("Süre: \(timeRemaining)s") // Süre göstergesi
-                            .font(.title).bold()
-                        Spacer()
-                        Button("Çıkış Yap") { signOut() }
-                            .buttonStyle(.bordered).tint(.red)
-                    }
-                    .padding()
-                    
-                    if !gameStarted {
-                        Button("Oyunu Başlat") {
-                            setupGame()
-                            gameStarted = true
-                            isGameOver = false // Oyuna başlarken bitiş durumunu sıfırla
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .padding()
-                    } else if isGameOver { // Oyun bittiğinde gösterilecek ekran
-                        GameOverView(score: score) {
-                            // Yeniden başlatma aksiyonu
-                            gameStarted = false
-                            isGameOver = false
-                            // setupGame() // setupGame'i doğrudan çağırmak yerine, gameStarted'ı false yaparak başlama butonunu gösterelim.
-                        }
-                    }
-                    else { // Oyun devam ederken
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-                            ForEach(cards.indices, id: \.self) { index in
-                                CardView(card: $cards[index])
-                                    .onTapGesture {
-                                        flipCard(at: index)
-                                    }
+                ZStack {
+                   
+                    Color.gray.opacity(0.2).ignoresSafeArea() // Hafif gri ve şeffaf bir arka plan
+                  
+
+                    VStack(spacing: 20) {
+                        HStack {
+                            Text("Skor: \(score)")
+                                .font(.title).bold()
+                                .foregroundColor(.white)
+                            Spacer()
+                            Text("Süre: \(timeRemaining)s")
+                                .font(.title).bold()
+                                .foregroundColor(.white)
+                            Spacer()
+                            Button("Çıkış Yap") {
+                                signOut()
                             }
+                            .buttonStyle(.borderedProminent).tint(.red)
                         }
                         .padding()
+                        
+                        if !gameStarted {
+                            Button("Oyunu Başlat") {
+                                setupGame()
+                                gameStarted = true
+                                isGameOver = false
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .padding()
+                            .tint(.green)
+                            
+                        } else if isGameOver {
+                            GameOverView(score: score) {
+                                gameStarted = false
+                                isGameOver = false
+                            }
+                        } else {
+                            LazyVGrid(columns: Array(repeating: GridItem(.adaptive(minimum: 80)), count: 4)) {
+                                ForEach(cards.indices, id: \.self) { index in
+                                    CardView(card: $cards[index])
+                                        .onTapGesture {
+                                            flipCard(at: index)
+                                        }
+                                }
+                            }
+                            .padding()
+                        }
+                        
+                        Spacer()
+                    }
+                }
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("Animal Match")
+                            .font(.system(size: 40, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                    }
+                }
+                .onReceive(timerPublisher) { _ in
+                    guard gameStarted && !isGameOver else {
+                        self.cancellable?.cancel()
+                        return
                     }
                     
-                    Spacer()
+                    if timeRemaining > 0 {
+                        timeRemaining -= 1
+                    } else {
+                        endGame()
+                    }
                 }
-                .navigationTitle("Kart Oyunu")
+                .onAppear {
+                    cancellable?.cancel()
+                }
             }
         } else {
-            // Giriş ve Kayıt Ekranı (Değişiklik yapılmadı)
+            // MARK: - Giriş ve Kayıt Ekranı 
             NavigationStack {
                 ZStack {
                     Image("arkaplan")
@@ -99,29 +124,30 @@ struct ContentView: View {
                     Color.black.opacity(0.3).ignoresSafeArea()
                     
                     VStack(spacing: 20) {
-                        Text("🐻 Kart Oyunu 🦊")
+                        Text("🐻 Animal Match 🦊")
                             .font(.system(size: 40, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
                         
+                        // TextField ve SecureField
                         TextField("Email", text: $email)
                             .keyboardType(.emailAddress)
                             .autocapitalization(.none)
                             .padding()
                             .background(Color.white.opacity(0.9))
                             .cornerRadius(12)
-                            .frame(width: 300)
+                            .frame(maxWidth: 350) // Maksimum genişlik
                         
                         SecureField("Şifre", text: $password)
                             .padding()
                             .background(Color.white.opacity(0.9))
                             .cornerRadius(12)
-                            .frame(width: 300)
+                            .frame(maxWidth: 350)
                         
                         if !errorMessage.isEmpty {
                             Text(errorMessage)
                                 .foregroundColor(.red)
                                 .multilineTextAlignment(.center)
-                                .frame(width: 300)
+                                .frame(maxWidth: 350)
                         }
                         
                         Button(action: signIn) {
@@ -129,7 +155,7 @@ struct ContentView: View {
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding()
-                                .frame(width: 250)
+                                .frame(maxWidth: 300) // Buton genişliği
                                 .background(Color.pink)
                                 .cornerRadius(15)
                         }
@@ -139,7 +165,7 @@ struct ContentView: View {
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding()
-                                .frame(width: 250)
+                                .frame(maxWidth: 300)
                                 .background(Color.purple)
                                 .cornerRadius(15)
                         }
@@ -147,12 +173,14 @@ struct ContentView: View {
                         Spacer()
                     }
                     .padding(.top, 60)
+                    .padding(.horizontal, 20) // VStack'e yatay padding
                 }
             }
         }
     }
     
-    // Yardımcı fonksiyonlar
+    // MARK: - Firebase Yardımcı Fonksiyonları
+    
     private func signIn() {
         errorMessage = ""
         Auth.auth().signIn(withEmail: email, password: password) { _, error in
@@ -173,37 +201,29 @@ struct ContentView: View {
         }
     }
     
+    // MARK: - Oyun Mantığı Fonksiyonları
+    
     private func setupGame() {
-        // Zamanlayıcıyı sıfırla ve başlat
-        timer?.invalidate() // Önceki zamanlayıcıyı durdur
         timeRemaining = 60
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            if timeRemaining > 0 {
-                timeRemaining -= 1
-            } else {
-                endGame() // Süre bittiğinde oyunu bitir
-            }
-        }
+        cancellable?.cancel()
+        cancellable = timerPublisher.sink { _ in }
         
-        // Oyun durumunu sıfırla
         flippedCards = []
         matchedCardsCount = 0
         score = 0
         isGameOver = false
         
-        // Kart içeriklerini oluştur (her resimden 2 tane)
         var gameCardContents: [String] = []
-        for _ in 0..<2 { // Her resimden 2 tane olmalı
+        for _ in 0..<2 {
             gameCardContents.append(contentsOf: cardImageNames)
         }
         gameCardContents.shuffle()
         
         cards = gameCardContents.map { name in
-            Card(name: name, isFlipped: true) // Başlangıçta tüm kartlar açık
+            Card(name: name, isFlipped: true)
         }
         
-        // Kartları 3 saniye sonra ters çevir
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             for i in cards.indices {
                 cards[i].isFlipped = false
             }
@@ -211,8 +231,9 @@ struct ContentView: View {
     }
     
     private func flipCard(at index: Int) {
-        // Oyun bitmişse veya kart zaten açıksa/eşleşmişse veya iki kart zaten çevriliyse işlem yapma
-        if isGameOver || cards[index].isFlipped || cards[index].isMatched || flippedCards.count == 2 { return }
+        if isGameOver || cards[index].isFlipped || cards[index].isMatched || flippedCards.count == 2 {
+            return
+        }
         
         cards[index].isFlipped = true
         flippedCards.append(cards[index])
@@ -226,39 +247,36 @@ struct ContentView: View {
     
     private func checkMatch() {
         if flippedCards[0].name == flippedCards[1].name {
-            // Eşleşme bulundu
             for i in cards.indices {
                 if cards[i].id == flippedCards[0].id || cards[i].id == flippedCards[1].id {
                     cards[i].isMatched = true
-                    cards[i].isFlipped = true // Eşleşme bulundu, kartı açık tut
+                    cards[i].isFlipped = true
                 }
             }
             score += 10
             matchedCardsCount += 2
             
-            // Tüm kartlar eşleşti mi kontrol et
             if matchedCardsCount == cards.count {
-                endGame() // Tüm kartlar eşleştiğinde oyunu bitir
+                endGame()
             }
         } else {
-            // Eşleşme yok
             for i in cards.indices {
                 if cards[i].id == flippedCards[0].id || cards[i].id == flippedCards[1].id {
-                    cards[i].isFlipped = false // Eşleşme yok, kartı geri çevir
+                    cards[i].isFlipped = false
                 }
             }
         }
         flippedCards.removeAll()
     }
     
-    // Oyunun bitişini yöneten fonksiyon
     private func endGame() {
-        timer?.invalidate() // Zamanlayıcıyı durdur
-        isGameOver = true // Oyun bitti durumunu ayarla
+        cancellable?.cancel()
+        isGameOver = true
     }
 }
 
-// Yardımcı görünüm: Kartın kendisi (değişiklik yapılmadı)
+// MARK: - Yardımcı Görünümler
+
 struct CardView: View {
     @Binding var card: Card
     
@@ -269,21 +287,20 @@ struct CardView: View {
                 .shadow(radius: 5)
             
             if card.isFlipped {
-                Image(card.name) // Resim asset adını kullan
+                Image(card.name)
                     .resizable()
                     .scaledToFit()
                     .padding(5)
                     .transition(.scale)
             } else {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.purple) // Kartın arka yüzü
+                    .fill(Color.purple)
             }
         }
         .aspectRatio(2/3, contentMode: .fit)
     }
 }
 
-// Yeni: Oyun bittiğinde gösterilecek özel görünüm
 struct GameOverView: View {
     let score: Int
     let onRestart: () -> Void
@@ -318,8 +335,8 @@ struct GameOverView: View {
     }
 }
 
+// MARK: - Önizleme Sağlayıcı
 
-// Önizleme
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

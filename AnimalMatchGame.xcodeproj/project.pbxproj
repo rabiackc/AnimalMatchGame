@@ -26,13 +26,13 @@
 		2D551D5D2E2EC56A00A6A368 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D551D5B2E2EC56A00A6A368 /* ContentView.swift */; };
 		2D551D5F2E2EC5A200A6A368 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D551D5E2E2EC5A200A6A368 /* GameView.swift */; };
 		2D551D602E2EC5A200A6A368 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D551D5E2E2EC5A200A6A368 /* GameView.swift */; };
-		2D551D642E2EC7FA00A6A368 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D551D632E2EC7FA00A6A368 /* Info.plist */; };
-		2D551D662E2EC81200A6A368 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2D551D652E2EC81200A6A368 /* README.md */; };
 		2D551D682E2EC87C00A6A368 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D551D672E2EC87C00A6A368 /* RegisterView.swift */; };
 		2D551D692E2EC87C00A6A368 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D551D672E2EC87C00A6A368 /* RegisterView.swift */; };
 		2D551D6B2E2EC9B400A6A368 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D551D6A2E2EC9B400A6A368 /* Assets.xcassets */; };
-		2D6D83732E2F993D001672C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D6D83722E2F993D001672C4 /* GoogleService-Info.plist */; };
 		2D8FC6282E25367600B75A5C /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2D8FC6272E25367600B75A5C /* FirebaseAnalytics */; };
+		2DC47B662E34F62E007F0345 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC47B652E34F62E007F0345 /* LoginView.swift */; };
+		2DC47B672E34F62E007F0345 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC47B652E34F62E007F0345 /* LoginView.swift */; };
+		2DEB8C3E2E30F4B2007CC54F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DEB8C3D2E30F4B1007CC54F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D36E5662E30FE2400078F05 /* AnimalMatchGame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AnimalMatchGame-Bridging-Header.h"; sourceTree = "<group>"; };
 		2D4201AF2E1D244A00201ECD /* AnimalMatchGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalMatchGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D4201BC2E1D244B00201ECD /* AnimalMatchGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimalMatchGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D4201C62E1D244B00201ECD /* AnimalMatchGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimalMatchGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,7 +64,8 @@
 		2D551D652E2EC81200A6A368 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2D551D672E2EC87C00A6A368 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		2D551D6A2E2EC9B400A6A368 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2D6D83722E2F993D001672C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2DC47B652E34F62E007F0345 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		2DEB8C3D2E30F4B1007CC54F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -128,12 +130,14 @@
 		2D4201A62E1D244A00201ECD = {
 			isa = PBXGroup;
 			children = (
+				2D36E5662E30FE2400078F05 /* AnimalMatchGame-Bridging-Header.h */,
 				2D551D582E2EC53800A6A368 /* AnimalMatchGameAppView.swift */,
 				2D551D5B2E2EC56A00A6A368 /* ContentView.swift */,
 				2D551D672E2EC87C00A6A368 /* RegisterView.swift */,
+				2DC47B652E34F62E007F0345 /* LoginView.swift */,
 				2D551D5E2E2EC5A200A6A368 /* GameView.swift */,
 				2D551D6A2E2EC9B400A6A368 /* Assets.xcassets */,
-				2D6D83722E2F993D001672C4 /* GoogleService-Info.plist */,
+				2DEB8C3D2E30F4B1007CC54F /* GoogleService-Info.plist */,
 				2D551D632E2EC7FA00A6A368 /* Info.plist */,
 				2D551D652E2EC81200A6A368 /* README.md */,
 				2D1AE19F2E2EA07300FC674F /* AnimalMatchGame */,
@@ -296,10 +300,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D551D662E2EC81200A6A368 /* README.md in Resources */,
-				2D6D83732E2F993D001672C4 /* GoogleService-Info.plist in Resources */,
-				2D551D642E2EC7FA00A6A368 /* Info.plist in Resources */,
 				2D551D6B2E2EC9B400A6A368 /* Assets.xcassets in Resources */,
+				2DEB8C3E2E30F4B2007CC54F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +397,7 @@
 				2D551D5C2E2EC56A00A6A368 /* ContentView.swift in Sources */,
 				2D551D682E2EC87C00A6A368 /* RegisterView.swift in Sources */,
 				2D551D5F2E2EC5A200A6A368 /* GameView.swift in Sources */,
+				2DC47B672E34F62E007F0345 /* LoginView.swift in Sources */,
 				2D551D5A2E2EC53800A6A368 /* AnimalMatchGameAppView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -403,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DC47B662E34F62E007F0345 /* LoginView.swift in Sources */,
 				2D551D592E2EC53800A6A368 /* AnimalMatchGameAppView.swift in Sources */,
 				2D551D692E2EC87C00A6A368 /* RegisterView.swift in Sources */,
 				2D551D602E2EC5A200A6A368 /* GameView.swift in Sources */,
@@ -486,6 +490,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -544,6 +549,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -579,8 +585,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "rabiac-akici.AnimalMatchGame";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "AnimalMatchGame/AnimalMatchGame-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -611,7 +617,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "rabiac-akici.AnimalMatchGame";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "AnimalMatchGame/AnimalMatchGame-Bridging-Header.h";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

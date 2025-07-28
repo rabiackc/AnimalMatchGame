@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>107014179805-d6qko2tu6kao5gqerp5loj7uenhn7uit.apps.googleusercontent.com</string>
+	<string>1051715159938-cfdr57gs8m0cgilfs0uo3kppf7rivou1.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.107014179805-d6qko2tu6kao5gqerp5loj7uenhn7uit</string>
+	<string>com.googleusercontent.apps.1051715159938-cfdr57gs8m0cgilfs0uo3kppf7rivou1</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDw4yQVQPeXa-JIRVj43nMKi0S4VB5guRI</string>
+	<string>AIzaSyBW1vD-7gr7uosUXMfM4ZOtVKPFXYIZBY0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>107014179805</string>
+	<string>1051715159938</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>rabiac-akici.test</string>
+	<string>rabiac-akici.AnimalMatchGame</string>
 	<key>PROJECT_ID</key>
-	<string>test-39b0c</string>
+	<string>animalmatchgame-50eec</string>
 	<key>STORAGE_BUCKET</key>
-	<string>test-39b0c.firebasestorage.app</string>
+	<string>animalmatchgame-50eec.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:107014179805:ios:8be2b73d7c19efdc300434</string>
+	<string>1:1051715159938:ios:26b271ffd10dc6d06f319b</string>
 </dict>
 </plist>
