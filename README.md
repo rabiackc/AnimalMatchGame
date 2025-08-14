@@ -1,9 +1,13 @@
 # AnimalMatchGame
 
-<p align="center">
-  <img src="screenshots/Ekran Resmi 2025-07-28 14.06.27.jpg" alt="Oyun Ekranı" width="350"/>
-  <img src="screenshots/Ekran Resmi 2025-07-28 14.05.13.jpg" alt="Giriş Ekranı" width="350"/>
-  <br>
+## Oyun Ekran Görüntüleri
+
+### Oyun Bitti Ekranı
+![Oyun Bitti](screenshots/GameOver_Screenshot.jpg)
+
+### Oyun İçi Görünüm
+![Oyun İçi](screenshots/Gameplay_Screenshot.jpg)
+<br>
   <em>Uygulamanın ana oyun ekranı (solda) ve giriş/kayıt ekranı (sağda).</em>
   <img src="screenshots/ekrankaydı.gif" alt="Uygulama Demosu" width="450"/>
 </p>
